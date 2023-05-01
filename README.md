@@ -20,10 +20,6 @@ php artisan migrate
 npm install
 ```
 
-```sh
-npm install
-```
-
 ### Compile and Hot-Reload for Development
 
 ```sh
