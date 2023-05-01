@@ -20,6 +20,24 @@ php artisan migrate
 npm install
 ```
 
+### if not using Laravel Valet
+
+```sh
+composer install
+```
+
+```sh
+run composer dump-autoload if the autoload.php file is missing
+```
+
+```sh
+php artisan key:generate
+```
+
+```sh
+php artisan serve
+```
+
 ### Compile and Hot-Reload for Development
 
 ```sh
