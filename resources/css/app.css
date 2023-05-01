@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.classic-theme {
+    background-color: #ffffcc; /* Warna latar belakang */
+    color: #000000; /* Warna tulisan */
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.aktip {
+    color: black;
+    border-color: black;
+    font-weight: 700;
+}
+
+.aktip svg {
+    fill: black;
+}
+
+.bgpostsm {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.bgpostmd {
+    background-color: white;
+}
