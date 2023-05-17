@@ -112,9 +112,6 @@ export default {
             passwordErrorMessage: '',
             user: '',
             show: false,
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            },
             en: {
                 hint: 'Click or drag the file here to upload',
                 loading: 'Uploading…',

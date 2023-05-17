@@ -28,3 +28,13 @@
 .bgpostmd {
     background-color: white;
 }
+
+.lope {
+    color: red;
+    border-color: red;
+    font-weight: 700;
+}
+
+.lope svg {
+    fill: red;
+}

@@ -9,21 +9,33 @@ import RegisterPage from '../pages/RegisterPage.vue'
 import LikePage from '../pages/LikePage.vue'
 import SastraUser from '../pages/SastraUser.vue'
 import ProfilePage from '../pages/ProfilePage.vue'
+import axios from 'axios'
+
 
 const guest = (to, from, next) => {
-  if (!localStorage.getItem("token")) {
-    return next();
-  } else {
-    return next("/");
-  }
-};
-const auth = (to, from, next) => {
-  if (localStorage.getItem("token")) {
-    return next();
-  } else {
-    return next("/search");
-  }
-};
+    axios.get('/api/check')
+      .then(response => {
+        console.log(response)
+        return next("/");
+      })
+      .catch(error => {
+        console.log(error)
+        return next();
+      });
+  };
+
+  const auth = (to, from, next) => {
+    axios.get('/api/check')
+      .then(response => {
+        console.log(response)
+        return next();
+      })
+      .catch(error => {
+        console.log(error)
+        return next("/search");
+      });
+  };
+
 
 const router = createRouter({
   history: createWebHistory(),
@@ -73,6 +85,7 @@ const router = createRouter({
             path: ':username/likes',
             name: 'LikePage',
             component: LikePage,
+            beforeEnter: auth
         }
       ]
     },

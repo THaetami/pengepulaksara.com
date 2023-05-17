@@ -70,11 +70,7 @@ export default {
         ...mapActions(["getuser"]),
         async getUser() {
             try {
-                const response = await axios.get('/api/user', {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
+                const response = await axios.get('/api/user');
                 this.getuser(response.data.data.user)
             } catch (error) {
                 const { response, request } = error;

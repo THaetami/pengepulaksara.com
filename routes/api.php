@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::controller(AuthController::class)->group(function () {
     Route::post('authentications', 'login'); // loginPage
     Route::delete('authentications', 'logout'); // logout
+    Route::get('/check', 'check');
 });
 
 

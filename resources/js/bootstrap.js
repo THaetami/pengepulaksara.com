@@ -10,8 +10,38 @@ window._ = _;
 import axios from 'axios';
 window.axios = axios;
 
+// Mendapatkan token dari cookie
+function getJwtTokenFromCookie() {
+    const cookie = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('jwt_token='));
+
+    if (cookie) {
+      return cookie.split('=')[1];
+    }
+
+    return null;
+  }
+
+
+// Menambahkan interceptor untuk mengirimkan token dalam header permintaan
+axios.interceptors.request.use(
+    (config) => {
+      const token = getJwtTokenFromCookie(); // Fungsi untuk mendapatkan token dari cookie
+
+      if (token) {
+        config.headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+// window.axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

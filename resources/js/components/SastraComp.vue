@@ -76,7 +76,7 @@
             <div class="flex-1 min-w-0">
                 <div class="flex mb-0 pb-3 mt-2 mr-10 box-content justify-end">
                     <p v-if="user" class="sm-text">
-                        <svg xmlns="http://www.w3.org/2000/svg" :class="sastra.like.includes(sastra.like.find(like => like.author_id == user.id)) ? 'aktip' : ''" class="cursor-pointer h-6 w-6 sd:h-8 sd:w-8 rounded-sm  hover:scale-110" viewBox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" :class="sastra.like.includes(sastra.like.find(like => like.author_id == user.id)) ? 'lope' : ''" class="cursor-pointer h-6 w-6 sd:h-8 sd:w-8 rounded-sm  hover:scale-110" viewBox="0 0 20 20" fill="currentColor">
                             <path @click.prevent="addLikes(sastra.id, $event)" fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
                         </svg>
                     </p>
@@ -139,10 +139,10 @@ export default {
                 e.target.parentElement.parentElement.nextSibling.innerHTML = response.data.count
                 const parentClassList = e.target.parentElement.classList;
 
-                if (parentClassList.contains('aktip')) {
-                    parentClassList.remove('aktip');
+                if (parentClassList.contains('lope')) {
+                    parentClassList.remove('lope');
                 } else {
-                    parentClassList.add('aktip');
+                    parentClassList.add('lope');
                 }
             } catch (error) {
                 const { response, request } = error;

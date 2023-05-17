@@ -82,7 +82,7 @@ export default {
                 this.valid = false
                 this.email = ''
                 this.password = ''
-                localStorage.setItem('token', response.data.token.accessToken);
+                document.cookie = `jwt_token=${response.data.token.accessToken}; path=/; secure; sameSite=lax`;
                 this.$router.go()
                 this.$router.push({ name: 'HomePage' })
             } catch (error) {
