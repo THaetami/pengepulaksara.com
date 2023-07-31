@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRegisterRequest;
+use App\Http\Requests\UserUpdateRequest;
+use App\Helpers\JsonResponseHelper;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Sastra;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use Symfony\Contracts\Service\Attribute\Required;
 
 class UserController extends Controller
 {
@@ -22,89 +21,35 @@ class UserController extends Controller
     public function index()
     {
         $user = auth()->user();
-        return response()->json([
-            'status' => 'success',
-            'data' => [
-                'user' => $user,
-            ]
+        return JsonResponseHelper::respondSuccess([
+            "user" => $user,
         ]);
     }
 
-    public function store(Request $request)
+    public function store(UserRegisterRequest $request)
     {
-        $rules = [
-            'name' => ['required', 'max:14', 'min:4', 'regex:/^[a-zA-Z ]*$/'],
-            'username' => ['required', 'max:10', 'min:6', 'unique:users', 'regex:/^[a-zA-Z0-9]*$/'],
-            'email' => ['required', 'email:dns', 'unique:users'],
-            'password' => ['required', 'max:12', 'min:5', 'regex:/^[a-zA-Z0-9]*$/'],
-        ];
+        $data = $request->validated();
+        $data['password'] = Hash::make($data['password']);
 
-        $messages = [
-            'required' => 'harus diisi',
-            'max' => 'maksimal :max karakter',
-            'min' => 'minimal :min karakter',
-            'unique' => 'sudah digunakan',
-            'email' => 'format email tidak valid',
-            'name.regex' => 'gunakan alphabet dan spasi',
-            'username.regex' => 'gunakan karakter alfanumerik',
-            'password.regex' => 'gunakan karakter alfanumerik',
-        ];
-
-        $validated = $request->validate($rules, $messages);
-        $validated['password'] = Hash::make($validated['password']);
-
-        $user = User::create($validated);
+        $user = User::create($data);
 
         if ($user) {
-            return response()->json([
-                "status" => "success",
-                "data" => [
-                    "addedUser" => [
-                        "id" => $user->id,
-                        "username" => $user->username
-                    ]
+            return JsonResponseHelper::respondSuccess([
+                "addedUser" => [
+                    "id" => $user->id,
+                    "username" => $user->username
                 ]
             ], 201);
         } else {
-            return response()->json([
-                "status" => "fail",
-                "message" => "User gagal ditambahkan"
-            ], 400);
+            return JsonResponseHelper::respondFail("user gagal ditambahkan", 400);
         }
     }
 
-    public function update(Request $request)
+    public function update(UserUpdateRequest $request)
     {
         $user = auth()->user();
 
-        $rules = [
-            'name' => 'required|max:14|min:4|regex:/^[a-zA-Z ]*$/',
-        ];
-
-        if ($request->username != $user->username) {
-            $rules['username'] = 'required|min:6|max:10|unique:users|regex:/^[a-zA-Z0-9]*$/';
-        }
-
-        if ($request->email != '' && $request->email != $user->email) {
-            $rules['email'] = 'required|unique:users|email:rfc,dns';
-        }
-
-        if ($request->password != '') {
-            $rules['password'] = 'required|min:5|max:12|regex:/^[a-zA-Z0-9]*$/';
-        }
-
-        $customMessages = [
-            'required' => ':attribute diperlukan',
-            'max' => ':attribute maksimal :max karakter',
-            'min' => ':attribute minimal :min karakter',
-            'unique' => ':attribute sudah digunakan',
-            'email' => 'format email tidak valid',
-            'name.regex' => 'gunakan alphabet dan spasi',
-            'username.regex' => 'gunakan alfanumerik',
-            'password.regex' => 'gunakan alfanumerik',
-        ];
-
-        $validatedData = $request->validate($rules, $customMessages);
+        $validatedData = $request->validated();
 
         if (isset($validatedData['password'])) {
             $validatedData['password'] = Hash::make($validatedData['password']);
@@ -112,7 +57,7 @@ class UserController extends Controller
 
         $validatedData['id'] = $user->id;
 
-        User::where('id', User::where('id', $user->id)->pluck('id'))->update($validatedData);
+        User::where('id', $user->id)->update($validatedData);
         Sastra::where('author_id', auth()->user()->id)->update(['penulis' => $request->username]);
 
         return response()->json([
@@ -124,55 +69,32 @@ class UserController extends Controller
     public function search(Request $request)
     {
         $user = $request->get('user');
-
         $q = $request->get('q');
 
-        if ($q) {
+        if (!$q && !$user) {
+            return JsonResponseHelper::respondFail("permintaan pencarian diperlukan");
+        }
 
-            $sastras =
-                Sastra::where(function ($query) use ($q) {
-                    $query->where('title', 'like', "%{$q}%")
-                        ->orWhere('penulis', 'like', "%{$q}%")
-                        ->orWhere('body', 'like', "%{$q}%");
-                })
-                ->where('is_delete', false)
+        if ($q) {
+            $sastras = Sastra::search($q)
                 ->with(['comment' => function ($query) {
                     $query->where('is_delete', false);
                 }])
                 ->paginate(10);
-            // dd($sastras);
 
-            return response()->json([
-                "status" => "success",
-                "data" => [
-                    "sastras" => $sastras
-                ]
+            return JsonResponseHelper::respondSuccess([
+                "sastras" => $sastras,
             ]);
-        } elseif ($user) {
-            $user = User::select('name', 'username', 'created_at')
-                ->where('username', 'like', '%' . $user . '%')
-                ->orderBy('username')
-                ->paginate(10);
-            return response()->json([
-                'status' => "success",
-                'data' => $user
-            ]);
-        } else {
-            return response()->json([
-                "status" => "fail",
-                "message" => "Permintaan pencarian diperlukan."
-            ], 400);
         }
-    }
 
-    public function userDetail(Request $request)
-    {
-        $user = User::where('username', $request->username)->first();
+        if ($user) {
+            $users = User::searchByUsername($user)
+                ->paginate(10);
 
-        return response()->json([
-            "status" => "success",
-            "user" => $user,
-        ]);
+            return JsonResponseHelper::respondSuccess([
+                "users" => $users,
+            ]);
+        }
     }
 
     public function crop(Request $request)

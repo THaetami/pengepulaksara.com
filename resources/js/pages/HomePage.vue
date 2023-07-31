@@ -51,7 +51,8 @@ export default {
         async getSastras() {
             try {
                 const response = await axios.get(`/api/sastras?page=${this.page}`)
-                this.sastras = response.data.sastras.data
+                console.log(response.data.data.sastras.data);
+                this.sastras = response.data.data.sastras.data
                 this.isLoading = true
                 this.gettitleheader("Home")
             } catch (error) {
@@ -77,9 +78,9 @@ export default {
                 axios.get(`/api/sastras?page=${this.page}`)
                 .then(response => {
                     this.isLoading = true;
-                    this.sastras.push(...response.data.sastras.data);
+                    this.sastras.push(...response.data.data.sastras.data);
 
-                    if (response.data.sastras.data.length === 0) {
+                    if (response.data.data.sastras.data.length === 0) {
                         this.page--;
                     }
                     this.back = response.data.sastras.current_page - 1;

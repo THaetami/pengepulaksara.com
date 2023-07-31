@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -68,4 +67,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Like::class);
     }
+
+    public function scopeSearchByUsername($query, $username)
+    {
+        return $query->select('name', 'username', 'created_at')
+            ->where('username', 'like', '%' . $username . '%')
+            ->orderBy('username');
+    }
+
 }

@@ -12,12 +12,10 @@ export function validateInputName(name) {
 }
 
 export function validateInputUsername(username) {
-    if (username.length < 6) {
-        return 'minimal 6 karakter';
-    } else if (username.length > 10) {
-        return 'maksimal 10 karakter';
-    } else if (!/^[a-zA-Z0-9]+$/.test(username)) {
-        return 'hanya karakter alfanumerik';
+    if (username.length < 3) {
+        return 'minimal 3 karakter';
+    } else if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+        return 'hanya karakter alfanumerik dan underscore';
     } else {
         return '';
     }

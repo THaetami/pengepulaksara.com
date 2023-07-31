@@ -59,7 +59,7 @@ export default {
                 let element = this.$refs.textarea;
                 element.style.height = "70px";
 
-                console.log(response.data.data.addedSastra.slug)
+                console.log(response)
                 this.getaddsastranotif(response.data.data.addedSastra.slug)
                 this.$emit('close')
                 setTimeout(() => {

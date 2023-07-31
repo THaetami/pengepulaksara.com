@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\JsonResponseHelper;
 use Illuminate\Http\Request;
 use App\Models\Like;
 use App\Models\Sastra;
@@ -23,10 +24,7 @@ class LikeController extends Controller
             ->first();
 
         if (!$sastra) {
-            return response()->json([
-                "status" => "fail",
-                "message" => "sastra tidak ditemukan"
-            ], 400);
+            return JsonResponseHelper::respondErrorNotFound("sastra tidak ditemukan");
         }
 
         $like = Like::where('author_id', $author_id)

@@ -7,6 +7,8 @@
         <div v-if="isLoading" class=" flex justify-center">
             <img class="w-11 h-11 rounded-full mt-4" :src="urlImg" alt="defaultImage">
         </div>
+
+        <not-found-comp v-if="isNotFound"></not-found-comp>
     </section>
 </template>
 
@@ -15,10 +17,12 @@ import axios from 'axios'
 import PostComp from '../components/SastraComp.vue'
 import { mapGetters } from 'vuex'
 import { getScrollbarWidth } from '../utils/scrollFunction'
+import NotFoundComp from '../components/NotFoundComp.vue'
 
 export default {
     components: {
-        PostComp
+        PostComp,
+        NotFoundComp
     },
     data() {
         return {
@@ -27,7 +31,8 @@ export default {
             page: 1,
             isLoading: false,
             back: '',
-            urlImg: '/img/loading.gif'
+            urlImg: '/img/loading.gif',
+            isNotFound: false
         }
     },
     computed: {
@@ -73,6 +78,11 @@ export default {
                 try {
                    const response = await axios.get(`/api/search?q=${q}&page=${this.page}`)
                    this.sastras = response.data.data.sastras.data
+                   if (response.data.data.sastras.data.length === 0) {
+                        this.isNotFound = true
+                    } else {
+                        this.isNotFound = false
+                    }
                } catch (error) {
                    this.handleAxiosError(error)
                } finally {

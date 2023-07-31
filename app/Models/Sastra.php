@@ -26,4 +26,14 @@ class Sastra extends Model
     {
         return $this->hasMany(Like::class);
     }
+
+    public function scopeSearch($query, $q)
+    {
+        return $query->where(function ($query) use ($q) {
+            $query->where('title', 'like', "%{$q}%")
+                ->orWhere('penulis', 'like', "%{$q}%")
+                ->orWhere('body', 'like', "%{$q}%");
+        })->where('is_delete', false);
+    }
+
 }

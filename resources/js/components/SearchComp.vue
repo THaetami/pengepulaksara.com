@@ -67,7 +67,7 @@ export default {
             if (this.search.trim() !== '') {
                 try {
                     const response = await axios.get(`/api/search?user=${this.search}`)
-                    this.users = response.data.data.data
+                    this.users = response.data.data.users.data
                 } catch (error) {
                     const { response, request } = error;
                     if (response) {

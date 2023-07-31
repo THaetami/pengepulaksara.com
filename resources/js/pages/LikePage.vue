@@ -48,7 +48,6 @@ export default {
             try {
                 const response = await axios.get(`/api/sastras/${this.$route.params.username}/likes?page=${this.page}`)
                 this.sastras = response.data.data.sastras.data
-                console.log(response.data.data.count)
                 this.getuserpage({
                     user: response.data.data.user,
                 })

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Helpers\JsonResponseHelper;
+use App\Http\Requests\UserLoginRequest;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -14,20 +14,13 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login']]);
     }
 
-    public function login(Request $request)
+    public function login(UserLoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string'
-        ]);
         $credentials = $request->only('email', 'password');
 
         $token = Auth::attempt($credentials);
         if (!$token) {
-            return response()->json([
-                'status' => 'fail',
-                'message' =>  'email atau password salah',
-            ], 401);
+            return JsonResponseHelper::respondFail("email atau password salah", 401);
         }
 
         return response()->json([

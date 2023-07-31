@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\JsonResponseHelper;
+use App\Http\Requests\SastraStoreRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use App\Models\Sastra;
 use App\Models\User;
-use App\Models\Like;
 
 class SastraController extends Controller
 {
@@ -25,11 +25,8 @@ class SastraController extends Controller
             ->take(10)
             ->get();
 
-        return response()->json([
-            "status" => "succes",
-            "data" => [
-                "sastras" => $sastras
-            ]
+        return JsonResponseHelper::respondSuccess([
+            "sastras" => $sastras,
         ]);
     }
 
@@ -42,9 +39,8 @@ class SastraController extends Controller
             }])
             ->paginate(10);
 
-        return response()->json([
-            "status" => "succes",
-            "sastras" => $sastras
+        return JsonResponseHelper::respondSuccess([
+            "sastras" => $sastras,
         ]);
     }
 
@@ -54,10 +50,7 @@ class SastraController extends Controller
 
         $user = User::where('username', $penulis)->first();
         if (!$user) {
-            return response()->json([
-                "status" => "fail",
-                "message" => "user tidak ditemukan"
-            ], 404);
+            return JsonResponseHelper::respondErrorNotFound("user tidak ditemukan");
         }
 
         $sastras = Sastra::latest()
@@ -68,45 +61,42 @@ class SastraController extends Controller
             }])
             ->paginate(10);
 
-        return response()->json([
-            "status" => "succes",
-            "data" => [
-                "user" => $user,
-                "sastras" => $sastras,
-                "count" => $sastras->total()
-            ]
+        return JsonResponseHelper::respondSuccess([
+            "user" => $user,
+            "sastras" => $sastras,
+            "count" => $sastras->total()
         ]);
     }
 
     public function getSastrasByLikeUser(Request $request)
     {
-        $user = User::where('username', $request->username)->first();
+        $user = $this->getUserByUsername($request->username);
         if (!$user) {
-            return response()->json([
-                "status" => "fail",
-                "message" => "user tidak ditemukan"
-            ], 404);
+            return JsonResponseHelper::respondErrorNotFound("user tidak ditemukan");
         }
 
-        $id = User::where('username', $request->username)->pluck('id');
-        $love = Like::where('author_id', $id)->pluck('sastra_id');
-        $sastras =  Sastra::whereIn('id', $love);
-        $sastras = Sastra::select(['sastras.*'])
+        $sastras = $this->getSastrasLikedByUser($user->id);
+
+        return JsonResponseHelper::respondSuccess([
+            "user" => $user,
+            "sastras" => $sastras,
+            "count" => $sastras->total()
+        ]);
+    }
+
+    private function getUserByUsername($username)
+    {
+        return User::where('username', $username)->first();
+    }
+
+    private function getSastrasLikedByUser($userId)
+    {
+        return Sastra::select(['sastras.*'])
             ->join('likes', 'sastras.id', '=', 'likes.sastra_id')
             ->where('is_delete', false)
-            ->where('likes.author_id', $id)
-            ->whereIn('sastras.id', $love)
+            ->where('likes.author_id', $userId)
             ->orderBy('likes.created_at', 'DESC')
             ->paginate(10);
-
-        return response()->json([
-            "status" => "success",
-            'data' => [
-                "user" => $user,
-                "sastras" => $sastras,
-                "count" => $sastras->total()
-            ],
-        ]);
     }
 
     public function getSastraBySlug(Request $request)
@@ -119,83 +109,48 @@ class SastraController extends Controller
             ->latest()->get();
 
         if ($sastras->isEmpty()) {
-            return response()->json([
-                "status" => "fail",
-                "message" => "sastra tidak ditemukan"
-            ], 404);
+            return JsonResponseHelper::respondErrorNotFound("sastra tidak ditemukan");
         }
 
-        return response()->json([
-            "status" => "succes",
-            "data" => [
-                "sastras" => $sastras
-            ]
+        return JsonResponseHelper::respondSuccess([
+            "sastras" => $sastras,
         ]);
     }
 
-    public function store(Request $request)
+    public function store(SastraStoreRequest $request)
     {
-        $validatedData = $request->validate([
-            'title' => 'required|max:30',
-            'body' => 'required'
-        ], [
-            'title.required' => 'judul tidak boleh kosong',
-            'title.max' => 'judul maksimal 30 karakter',
-            'body.required' => 'body tidak boleh kosong',
-        ]);
-
-        $validatedData['author_id'] = auth()->user()->id;
-        $validatedData['penulis'] = auth()->user()->username;
-        $validatedData['slug'] = Str::uuid();
+        $validatedData = $request->validatedData();
 
         $sastra = Sastra::create($validatedData);
 
         if ($sastra) {
-            return response()->json([
-                "status" => "success",
-                "message" => "Sastra berhasil ditambahkan",
-                "data" => [
-                    "addedSastra" => [
-                        "title" => $sastra->title,
-                        "body" => $sastra->body,
-                        "penulis" => $sastra->penulis,
-                        "slug" => $sastra->slug
-                    ]
+            return JsonResponseHelper::respondSuccess([
+                "addedSastra" => [
+                    "title" => $sastra->title,
+                    "body" => $sastra->body,
+                    "penulis" => $sastra->penulis,
+                    "slug" => $sastra->slug
                 ]
             ], 201);
         } else {
-            return response()->json([
-                "status" => "fail",
-                "message" => "Sastra gagal ditambahkan"
-            ], 400);
+            return JsonResponseHelper::respondFail("sastra gagal ditambahkan");
         }
     }
 
     public function delete(Request $request)
     {
-        $id = $request->id;
-        $user = auth()->user();
-        $sastra = Sastra::where('id', $id)->first();
+        $sastra = Sastra::where('id', $request->id)->first();
 
         if (!$sastra) {
-            return response()->json([
-                "status" => "fail",
-                "message" => "Sastra tidak ditemukan!!"
-            ], 404);
+            return JsonResponseHelper::respondErrorNotFound("sastra tidak ditemukan");
         }
 
-        if ($sastra->author_id !== $user->id) {
-            return response()->json([
-                "status" => "fail",
-                "message" => "Anda tidak berhak mengakses resource ini!!"
-            ], 403);
+        if ($sastra->author_id !== auth()->user()->id) {
+            return JsonResponseHelper::respondErrorForbidden("Anda tidak berhak mengakses resource ini");
         }
 
-        $sastra->is_delete = true;
-        $sastra->save();
+        $sastra->update(['is_delete' => true]);
 
-        return response()->json([
-            "status" => "success",
-        ], 204);
+        return JsonResponseHelper::respondSuccess([], 204);
     }
 }
