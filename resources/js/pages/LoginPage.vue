@@ -24,6 +24,9 @@
                             <button :disabled="!formValid" @click.prevent="handleSubmit" :class="{ 'bg-blue-300': !formValid }" class="w-full bg-blue-500 text-white rounded-md px-2 py-1">Login</button>
                             <p><small> Don't have an account? <router-link :to="{name: 'RegisterPage'}" class="hover:underline hover:text-blue-500 cursor-pointer" @click="setPage">Sign up</router-link> </small></p>
                         </div>
+                        <div class="relative">
+                            <button  @click.prevent="handleGoogleLogin" class="w-full bg-red-500 text-white rounded-md px-2 py-1">Google</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -32,7 +35,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
 import LoginRegisterModal from '../components/LoginRegisterModal.vue';
 import { validateInputEmail, validateInputPassword } from '../utils/validation';
 
@@ -96,6 +99,17 @@ export default {
                 } else {
                     console.log('Error', error.message);
                 }
+            }
+        },
+        async handleGoogleLogin() {
+            try {
+                const response = await axios.get('/api/auth/github');
+                console.log(response)
+                // document.cookie = `jwt_token=${response.data.token.accessToken}; path=/; secure; sameSite=lax`;
+                // this.$router.go()
+                // this.$router.push({ name: 'HomePage' })
+            } catch (error) {
+                console.log(error)
             }
         }
     }

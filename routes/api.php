@@ -6,6 +6,8 @@ use App\Http\Controllers\SastraController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GoogleAuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +26,8 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('/check', 'check');
 });
 
-
+Route::get('auth/github', [GoogleAuthController::class, 'redirect']);
+Route::get('auth/github/call-back', [GoogleAuthController::class, 'callbackGoogle']);
 
 Route::controller(UserController::class)->group(function () {
     Route::post('users', 'store'); // registerPage

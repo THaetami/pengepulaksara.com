@@ -3,7 +3,7 @@ import HomePage from '../pages/HomePage.vue'
 import UserPage from '../pages/UserPage.vue'
 import SearchPage from '../pages/SearchPage.vue'
 import DetailPage from '../pages/DetailPage.vue'
-import NotFound from '../pages/NotFoundPage.vue'
+// import NotFound from '../pages/NotFoundPage.vue'
 import LoginPage from '../pages/LoginPage.vue'
 import RegisterPage from '../pages/RegisterPage.vue'
 import LikePage from '../pages/LikePage.vue'
@@ -41,12 +41,12 @@ const router = createRouter({
   history: createWebHistory(),
   linkExactActiveClass: 'aktip',
   routes: [
-    {
-        path: '/:pathMatch(.*)*',
-        name: NotFound,
-        component: NotFound,
-        redirect: '/'
-    },
+    // {
+    //     path: '/:pathMatch(.*)*',
+    //     name: NotFound,
+    //     component: NotFound,
+    //     redirect: '/'
+    // },
     {
       path: '/guest/ready/login',
       name: 'LoginPage',
