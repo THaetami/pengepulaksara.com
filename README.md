@@ -5,7 +5,7 @@ website => https://pengepulaksara.com
 ## Project Setup
 
 ```sh
-copy __.env.example__ file to __.env__ and edit database credentials there
+copy .env.example file to .env, edit database credentials and OAuth Apps (Github) credentials there
 ```
 
 ```sh
