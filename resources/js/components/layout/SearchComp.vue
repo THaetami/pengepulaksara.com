@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import NoImage from './NoImage.vue';
+import NoImage from '../utils/NoImage.vue';
 import axios from 'axios';
 import { mapActions } from 'vuex'
 

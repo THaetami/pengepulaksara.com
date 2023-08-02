@@ -19,6 +19,7 @@ class User extends Authenticatable implements JWTSubject
         'username',
         'email',
         'password',
+        'google_id'
     ];
 
     /**
@@ -31,6 +32,7 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'remember_token',
         'email_verified_at',
+        'google_id'
     ];
 
     /**

@@ -14,8 +14,8 @@
 
 <script>
 import axios from 'axios'
-import FormComp from '../components/FormSastraComp.vue'
-import PostComp from '../components/SastraComp.vue'
+import FormComp from '../components/auth/FormSastraComp.vue'
+import PostComp from '../components/auth/SastraComp.vue'
 import { mapActions, mapGetters } from 'vuex'
 import { getScrollbarWidth } from '../utils/scrollFunction';
 
@@ -51,7 +51,6 @@ export default {
         async getSastras() {
             try {
                 const response = await axios.get(`/api/sastras?page=${this.page}`)
-                console.log(response.data.data.sastras.data);
                 this.sastras = response.data.data.sastras.data
                 this.isLoading = true
                 this.gettitleheader("Home")

@@ -37,7 +37,7 @@ export default {
         },
         async handleSubmit() {
             try {
-                const response = await axios.post('/api/comments', {
+                await axios.post('/api/comments', {
                     commentar: this.comentar,
                     sastra_id: this.sastraId,
                 });
@@ -45,7 +45,6 @@ export default {
                 let element = this.$refs.textarea;
                 element.style.height = "70px";
                 this.$emit('refreshDetailPage')
-                console.log(response)
 
             } catch (error) {
                 const { response, request } = error;

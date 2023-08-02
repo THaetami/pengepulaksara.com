@@ -11,11 +11,11 @@
 </template>
 
 <script>
-import PostComp from '../components/SastraComp.vue'
+import PostComp from '../components/auth/SastraComp.vue'
 import { getScrollbarWidth } from '../utils/scrollFunction'
 import axios from 'axios'
 import { mapActions } from 'vuex'
-import NotFoundComp from '../components/NotFoundComp.vue'
+import NotFoundComp from '../components/utils/NotFoundComp.vue'
 
 export default {
     data() {
@@ -87,7 +87,6 @@ export default {
                 .then(response => {
                     this.isLoading = true;
                     this.sastras.push(...response.data.data.sastras.data);
-                    console.log(response.data.data.sastras.data.length)
                     if (response.data.data.sastras.data.length === 0) {
                         this.page--;
                     }

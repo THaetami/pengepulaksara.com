@@ -11,7 +11,7 @@
 <script>
 import HeaderComp from './HeaderComp.vue'
 import SastraNotif from './SastraNotif.vue'
-import SidebarModal from '../components/SidebarModal.vue'
+import SidebarModal from './SidebarModal.vue'
 
 export default {
     emits: ['logoutModal'],

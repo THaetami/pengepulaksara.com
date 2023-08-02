@@ -20,12 +20,12 @@
 </template>
 
 <script>
-import PostComp from '../components/SastraComp.vue'
-import ErrorMessage from '../components/ErrorMessage.vue'
+import PostComp from '../components/auth/SastraComp.vue'
+import ErrorMessage from '../components/utils/ErrorMessage.vue'
 import axios from 'axios'
 import { mapActions, mapGetters } from 'vuex'
-import FormKomenComp from '../components/FormKomenComp.vue'
-import KomentarComp from '../components/KomentarComp.vue'
+import FormKomenComp from '../components/auth/FormKomenComp.vue'
+import KomentarComp from '../components/auth/KomentarComp.vue'
 
 export default {
     components: {

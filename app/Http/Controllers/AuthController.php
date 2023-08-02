@@ -17,7 +17,6 @@ class AuthController extends Controller
     public function login(UserLoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
-
         $token = Auth::attempt($credentials);
         if (!$token) {
             return JsonResponseHelper::respondFail("email atau password salah", 401);

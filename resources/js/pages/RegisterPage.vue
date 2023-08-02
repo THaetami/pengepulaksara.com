@@ -39,7 +39,7 @@
 
 <script>
 import axios from 'axios'
-import LoginRegisterModal from '../components/LoginRegisterModal.vue';
+import LoginRegisterModal from '../components/guest/LoginRegisterModal.vue';
 import { validateInputName, validateInputUsername, validateInputEmail, validateInputPassword } from '../utils/validation';
 
 

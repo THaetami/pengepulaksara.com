@@ -11,11 +11,11 @@
 </template>
 
 <script>
-import PostComp from '../components/SastraComp.vue'
+import PostComp from '../components/auth/SastraComp.vue'
 import axios from 'axios'
 import { mapActions } from 'vuex'
 import { getScrollbarWidth } from '../utils/scrollFunction';
-import NotFoundComp from '../components/NotFoundComp.vue'
+import NotFoundComp from '../components/utils/NotFoundComp.vue'
 
 
 export default {

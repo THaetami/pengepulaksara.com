@@ -31,13 +31,13 @@
 </template>
 
 <script>
-import SearchComp from './components/SearchComp.vue'
-import SidebarComp from './components/SidebarComp.vue'
-import MainComp from './components/MainComp.vue'
-import FooterComp from './components/FooterComp.vue'
+import SearchComp from './components/layout/SearchComp.vue'
+import SidebarComp from './components/layout/SidebarComp.vue'
+import MainComp from './components/layout/MainComp.vue'
+import FooterComp from './components/layout/FooterComp.vue'
 import { mapActions, mapGetters } from 'vuex'
 import axios from 'axios'
-import ModalMaster from './components/ModalMaster.vue';
+import ModalMaster from './components/utils/ModalMaster.vue';
 
 
 export default {
@@ -91,12 +91,11 @@ export default {
         },
         async logout() {
             try{
-                const response = await axios.delete('/api/authentications')
+                await axios.delete('/api/authentications')
                 this.$store.dispatch('getuser', null)
                 localStorage.removeItem('token')
                 this.$router.push({ name: 'SearchPage' })
                 this.showLogoutModal = false
-                console.log(response)
             } catch(error) {
                 const { response, request } = error;
                 if (response) {

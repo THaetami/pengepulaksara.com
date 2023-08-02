@@ -144,10 +144,10 @@
 </template>
 
 <script>
-import NoImage from './NoImage.vue'
-import LogoComp from './LogoComp.vue'
+import NoImage from '../utils/NoImage.vue'
+import LogoComp from '../utils/LogoComp.vue'
 import { mapGetters } from 'vuex';
-import PostSastraModal from './PostSastraModal.vue';
+import PostSastraModal from '../auth/PostSastraModal.vue';
 
 export default {
     name: 'SidebarComp',

@@ -140,10 +140,10 @@
 
 <script>
 import axios from 'axios';
-import NoImage from './NoImage.vue'
+import NoImage from '../utils/NoImage.vue'
 import { mapGetters, mapActions } from 'vuex';
-import ModalMaster from './ModalMaster.vue';
-import { formatDate, isoToWIB } from '../utils/timeSetting'
+import ModalMaster from '../utils/ModalMaster.vue';
+import { formatDate, isoToWIB } from '../../utils/timeSetting'
 
 
 export default {

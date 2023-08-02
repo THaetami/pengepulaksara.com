@@ -93,7 +93,7 @@ import myUpload from 'vue-image-crop-upload'
 import axios from 'axios'
 import { mapActions } from 'vuex'
 import { validateInputName, validateInputUsername, validateInputEmail, validateInputPassword } from '../utils/validation';
-import ModalMaster from '../components/ModalMaster.vue'
+import ModalMaster from '../components/utils/ModalMaster.vue'
 
 export default {
     name: 'ProfilePage',
@@ -192,13 +192,12 @@ export default {
         },
         async updateUser() {
             try {
-                const response = await axios.patch('/api/users', {
+                await axios.patch('/api/users', {
                     name: this.user.name,
                     username: this.user.username,
                     email: this.user.email,
                     password: this.user.password
                 })
-                console.log(response)
                 this.$router.go()
                 this.getUser()
             } catch (error) {

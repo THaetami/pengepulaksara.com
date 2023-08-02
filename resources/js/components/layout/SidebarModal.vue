@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import LogoComp from './LogoComp.vue'
+import LogoComp from '../utils/LogoComp.vue'
 import { mapGetters } from 'vuex'
 
 export default {

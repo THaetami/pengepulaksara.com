@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import NoImage from './NoImage.vue'
-import SearchComp from '../components/SearchComp.vue'
+import NoImage from '../utils/NoImage.vue'
+import SearchComp from './SearchComp.vue'
 import { mapGetters } from 'vuex';
 
 export default {

@@ -65,10 +65,10 @@
 </template>
 
 <script>
-import NoImage from './NoImage.vue';
-import { formatDate, isoToWIB } from '../utils/timeSetting'
+import NoImage from '../utils/NoImage.vue';
+import { formatDate, isoToWIB } from '../../utils/timeSetting'
 import { mapGetters } from 'vuex'
-import ModalMaster from './ModalMaster.vue'
+import ModalMaster from '../utils/ModalMaster.vue'
 import axios from 'axios'
 
 export default {
