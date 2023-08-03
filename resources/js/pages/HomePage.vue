@@ -54,6 +54,7 @@ export default {
                 this.sastras = response.data.data.sastras.data
                 this.isLoading = true
                 this.gettitleheader("Home")
+                document.title = "Home | Pengepulaksara"
             } catch (error) {
                 const { response, request } = error;
                 if (response) {

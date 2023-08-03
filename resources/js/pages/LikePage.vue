@@ -53,6 +53,7 @@ export default {
                 })
                 this.getlikecount(response.data.data.count)
                 this.gettitleheader(`${response.data.data.user.username}/likes`)
+                document.title = `${response.data.data.user.username} likes | Pengepulaksara`
                 if (response.data.data.sastras.data.length === 0) {
                     this.isNotFound = true
                 }
@@ -61,6 +62,7 @@ export default {
                 const { response, request } = error;
                 if (response) {
                     const { message } = response.data;
+                    document.title = `Not Found | Pengepulaksara`
                     console.log(message);
                 } else if (request) {
                     console.log(request);

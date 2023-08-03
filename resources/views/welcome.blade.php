@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="forum berbagi karya sastra indonesia">
     <link rel="icon" href="{{ url('css/favicon.png') }}">
-    <title>Laravel</title>
+    <title>Pengepulaksara</title>
 
     @vite('resources/css/app.css')
 

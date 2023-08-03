@@ -54,6 +54,7 @@ export default {
         this.getSastras()
     },
     mounted() {
+        document.title = this.user ? `Search | Pengepulaksara` : 'Pengepulaksara'
         this.isLoading = true
         this.getSearchSastras(this.$route.query.q)
         window.onscroll = () => {

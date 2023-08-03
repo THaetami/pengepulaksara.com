@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Hash;
 
 class SocialiteAuthController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware('auth:api', ['except' => ['redirect']]);
+    // }
+
     public function redirect($provider)
     {
         return response()->json([
@@ -22,12 +27,12 @@ class SocialiteAuthController extends Controller
         try {
             $github_user = Socialite::driver($provider)->stateless()->user();
 
-            $user = User::where('google_id', $github_user->id)->first();
+            $user = User::where('social_id', $github_user->id)->first();
 
             if (!$user) {
                 $randomPassword = Str::random(8, 'alnum');
                 $user = User::firstOrCreate(
-                    ['google_id' => $github_user->id],
+                    ['social_id' => $github_user->id],
                     [
                         'name' => $github_user->nickname,
                         'email' => $github_user->email,

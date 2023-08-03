@@ -7,10 +7,9 @@
             @crop-upload-fail="cropUploadFail"
             v-model="show"
             :width="200"
-            :langType="en"
+            langType="en"
             :height="200"
             url="/api/profilepicture"
-            :headers="headers"
             img-format="png"></my-upload>
         <img v-if="user.image" :src="'/storage/upload/' + user.image" class="w-[200px] h-[200px] border-2 rounded-full" :alt="user.name">
         <svg v-else xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1"
@@ -41,7 +40,7 @@
 
         <div class="mb-4">
             <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 select-none">Username</label>
-            <input v-model.trim="user.username" @input="validateUsername" id="username" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm md:rounded focus:outline-none focus:ring-1 focus:ring-black block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
+            <input v-model.trim="user.username" @input="validateUsername" autocomplete="current-password" id="username" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm md:rounded focus:outline-none focus:ring-1 focus:ring-black block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
             <small v-if="usernameErrorMessage" class="text-red-500">{{ usernameErrorMessage }}</small>
         </div>
 
@@ -53,7 +52,7 @@
 
         <div class="mb-4">
             <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 select-none">Masukan Password Baru (Ganti)</label>
-            <input v-model.trim="user.password" @input="validatePassword" :type="passwordFieldType" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm md:rounded focus:outline-none focus:ring-1 focus:ring-black block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <input v-model.trim="user.password" @input="validatePassword" autocomplete="current-password" :type="passwordFieldType" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm md:rounded focus:outline-none focus:ring-1 focus:ring-black block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <small v-if="passwordErrorMessage" class="text-red-500">{{ passwordErrorMessage }}</small>
         </div>
 
@@ -112,25 +111,7 @@ export default {
             passwordErrorMessage: '',
             user: '',
             show: false,
-            en: {
-                hint: 'Click or drag the file here to upload',
-                loading: 'Uploading…',
-                noSupported: 'Browser is not supported, please use IE10+ or other browsers',
-                success: 'Upload success',
-                fail: 'Upload failed',
-                preview: 'Preview',
-                btn: {
-                    off: 'Cancel',
-                    close: 'Close',
-                    back: 'Back',
-                    save: 'Save'
-                },
-                error: {
-                    onlyImg: 'Image only',
-                    outOfSize: 'Image exceeds size limit: ',
-                    lowestPx: 'Image\'s size is too low. Expected at least: '
-                }
-            },
+
         }
     },
     computed: {

@@ -61,6 +61,9 @@ export default {
             passwordErrorMessage: '',
         }
     },
+    mounted() {
+        document.title = `Register | Pengepulaksara`
+    },
     computed: {
         passwordFieldType() {
             return this.showPassword ? 'text' : 'password';

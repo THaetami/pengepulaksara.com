@@ -64,6 +64,7 @@ export default {
                 this.commentar = response.data.data.sastras[0].comment.reverse()
                 this.sastra_id = response.data.data.sastras[0].id
                 this.gettitleheader(response.data.data.sastras[0].title)
+                document.title = `${response.data.data.sastras[0].title} | Pengepulaksara`
             } catch (error) {
                 const { response, request } = error;
                 if (response.status == 404) {

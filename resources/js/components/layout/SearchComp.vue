@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div tabindex="0" class="dropdown-content w-full overflow-y-auto mt-2 h-[13rem] shadow bg-white rounded-lg">
+        <div tabindex="0" class="dropdown-content w-full overflow-y-auto mt-2 h-[5rem] xs:h-[9rem] shadow bg-white rounded-lg">
             <div v-for="user in users" v-bind:key="user.id" class="flow-root">
                 <div class="p-8 py-3">
                     <router-link :to="{ name: 'SastraUser', params: { username: user.username }}"  class="flex items-center space-x-4 mb-2">

@@ -65,6 +65,9 @@ export default {
             return  this.email.length > 0 && this.password.length > 0;
         },
     },
+    mounted() {
+        document.title = `Login | Pengepulaksara`
+    },
     methods: {
         setPage() {
             const page = localStorage.getItem('page')
