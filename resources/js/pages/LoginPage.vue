@@ -27,7 +27,8 @@
                             <p><small> Don't have an account? <router-link :to="{name: 'RegisterPage'}" class="hover:underline hover:text-blue-500 cursor-pointer" @click="setPage">Sign up</router-link> </small></p>
                         </div>
                         <div class="relative">
-                            <button  @click.prevent="handleGithubLogin" class="w-full bg-red-500 text-white rounded-md px-2 py-1">Login with Github</button>
+                            <button  @click.prevent="handleSocialLogin('github')" class="w-full bg-black text-white rounded-md px-2 py-2 mb-3">Login with Github</button>
+                            <button  @click.prevent="handleSocialLogin('google')" class="w-full bg-red-500 text-white rounded-md px-2 py-2">Login with Google</button>
                         </div>
                     </form>
                 </div>
@@ -108,9 +109,9 @@ export default {
                 }
             }
         },
-        async handleGithubLogin() {
+        async handleSocialLogin(provider) {
             try {
-                const response = await axios.get('/api/auth/github');
+                const response = await axios.get(`/api/auth/${provider}`);
                 if (response.data.url) {
                     window.location.href = response.data.url
                 }

@@ -1,7 +1,7 @@
 <template>
     <login-register-modal>
         <template #form>
-        <h1>Login with github, please await...</h1>
+        <h1>Login with {{ $route.params.provider }}, please await...</h1>
     </template>
     </login-register-modal>
 </template>
