@@ -66,7 +66,7 @@
             </div>
 
             <div class="hidden sm:block relative">
-                <div class="flex justify-center">
+                <div class="flex justify-center md:justify-normal">
                     <div v-if="user" class="dropdown dropdown-top">
                         <button tabindex="0" class="custom-button main-tab dark-bg-tab flex w-full items-center justify-center xl:justify-between hover:bg-light-primary/10 active:bg-light-primary/20 dark:hover:bg-dark-primary/10 dark:active:bg-dark-primary/20"  type="button">
                             <div class="flex gap-0 xl:gap-3 truncate">
